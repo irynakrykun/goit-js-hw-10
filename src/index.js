@@ -16,9 +16,15 @@ function onInput(e) {
    
     API.fetchCountries(nameInput).then((data) => {
         createMarkup(data)
+        data.forEach(element => {
+            if (element >= 10) {
+                Notify.info("Too many matches found. Please enter a more specific name.")
+            }
+        });
+        
     })
-};
-  
+}
+
 
 function createMarkup(countries) {
     const markup = countries.map(({name, flags, capital, languages, population}) => {
