@@ -15,5 +15,7 @@ function fetchCountries(nameInput) {
 
 
 
+// https://restcountries.com/v3.1/name/${nameInput}?fields=name,flags,capital,languages,population
+
 
 
