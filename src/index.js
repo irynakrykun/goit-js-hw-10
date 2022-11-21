@@ -1,6 +1,6 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce';
-import API from './fetchCountries';
+import {fetchCountries} from './fetchCountries';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const DEBOUNCE_DELAY = 300;
@@ -9,30 +9,26 @@ const inputEl = document.querySelector('#search-box');
 const list = document.querySelector('.country-list');
 const CountryInfo = document.querySelector('.country-info')
 
-inputEl.addEventListener('input',onInput);
+inputEl.addEventListener('input', debounce(onInput,DEBOUNCE_DELAY));
 
 function onInput(e) {
     // e.preventDefault();
     const nameInput = e.target.value.trim();
-    
- 
-    API.fetchCountries(nameInput).then((data) => {
+    if (!nameInput) {
+        alert('add Country!');
+        return
+    };
+         fetchCountries(nameInput).then((data) => {
        
-        if ( data.length > 10) {
-            Notify.info("Too many matches found. Please enter a more specific name.");
-            return
-
-        }  if (data.length > 1 && data.length < 10) { createListCountry(data) }
-            
-        if(data.length === 1) {           
-                createMarkup(data)
-                       
-        }
-
-    }).catch(err => Notify.failure("Oops, there is no country with that name."))
-        
-    
-            
+             if (data.length > 10) {
+                 Notify.info("Too many matches found. Please enter a more specific name.");
+                 return;
+             } else if (data.length > 1) { createListCountry(data) }
+          
+             else { createMarkup(data) };      
+                              
+            }).catch(err => Notify.failure("Oops, there is no country with that name."))
+                     
 }
 
 function createMarkup(countries) {
@@ -48,6 +44,8 @@ function createMarkup(countries) {
     }).join("");
 
     CountryInfo.innerHTML = markup;
+    list.innerHTML = '';
+    
 };
 function createListCountry(arr) {
     const listcountry = arr.map(({ flags, name }) => {
@@ -57,5 +55,6 @@ function createListCountry(arr) {
           </li>`
     }).join("");
     list.innerHTML = listcountry;
-}
+
+};
 

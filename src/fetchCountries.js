@@ -1,8 +1,5 @@
-   
-export default { fetchCountries };
-
-function fetchCountries(nameInput) {
-   return fetch(`https://restcountries.com/v3.1/name/${nameInput}`)
+   function fetchCountries(name = Canada) {
+   return fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,flags,capital,languages,population`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(response.status);
@@ -11,11 +8,11 @@ function fetchCountries(nameInput) {
         }).catch(err => console.error(err));
 };
 
-   
+   export { fetchCountries };
 
 
 
-// https://restcountries.com/v3.1/name/${nameInput}?fields=name,flags,capital,languages,population
+
 
 
 
