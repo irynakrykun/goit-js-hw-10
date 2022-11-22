@@ -17,8 +17,6 @@ function onInput(e) {
       alert('add Country!');
         list.innerHTML = '';
         CountryInfo.innerHTML = '';
-        // cleanerlist();
-        // cleanerCountryInfo()
         return
                
     };
