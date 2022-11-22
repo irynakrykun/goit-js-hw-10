@@ -12,22 +12,30 @@ const CountryInfo = document.querySelector('.country-info')
 inputEl.addEventListener('input', debounce(onInput,DEBOUNCE_DELAY));
 
 function onInput(e) {
-    // e.preventDefault();
-    const nameInput = e.target.value.trim();
+       const nameInput = e.target.value.trim();
     if (!nameInput) {
-        alert('add Country!');
+      alert('add Country!');
+        list.innerHTML = '';
+        CountryInfo.innerHTML = '';
         return
+               
     };
-         fetchCountries(nameInput).then((data) => {
+    fetchCountries(nameInput).then((data) => {
        
-             if (data.length > 10) {
-                 Notify.info("Too many matches found. Please enter a more specific name.");
-                 return;
-             } else if (data.length > 1) { createListCountry(data) }
+        if (data.length > 10) {
+            Notify.info("Too many matches found. Please enter a more specific name.");
+            return;
+        } else if (data.length > 1) { createListCountry(data) }
           
-             else { createMarkup(data) };      
+        else { createMarkup(data) };
                               
-            }).catch(err => Notify.failure("Oops, there is no country with that name."))
+    }).catch(err => {
+        Notify.failure("Oops, there is no country with that name.")
+        list.innerHTML = '';
+        CountryInfo.innerHTML = '';
+        
+    }
+         )
                      
 }
 
@@ -55,6 +63,7 @@ function createListCountry(arr) {
           </li>`
     }).join("");
     list.innerHTML = listcountry;
+    CountryInfo.innerHTML = '';
 
 };
 

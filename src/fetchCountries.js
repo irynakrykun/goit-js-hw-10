@@ -5,7 +5,7 @@
                 throw new Error(response.status);
             }
             return response.json();
-        }).catch(err => console.error(err));
+        })
 };
 
    export { fetchCountries };
